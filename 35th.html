@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎂</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    color:white;
+    text-align:center;
+    background:radial-gradient(circle at bottom,#020617,#000814 70%);
+}
+
+/* BINTANG */
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:0.2;}
+    to{opacity:1;}
+}
+
+/* CONTAINER */
+.container{
+    position:relative;
+    z-index:10;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.surprise-btn{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#f472b6;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:999;
+}
+
+
+.hidden{
+    display:none;
+    margin-top:20px;
+    max-width:500px;
+}
+
+/* BALON */
+.balon{
+    position:absolute;
+    bottom:-150px;
+    width:50px;
+    height:60px;
+    border-radius:50%;
+    animation:naik linear infinite;
+}
+
+.tali{
+    position:absolute;
+    width:2px;
+    height:40px;
+    background:white;
+    top:60px;
+    left:50%;
+    transform-origin:top;
+    animation:goyang 2s ease-in-out infinite;
+}
+
+@keyframes naik{
+    from{transform:translateY(0);}
+    to{transform:translateY(-120vh);}
+}
+@keyframes goyang{
+    0%{transform:rotate(-5deg);}
+    50%{transform:rotate(5deg);}
+    100%{transform:rotate(-5deg);}
+}
+
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:8px;
+    height:8px;
+    top:-10px;
+    animation:jatuh 3s linear forwards;
+}
+@keyframes jatuh{
+    to{transform:translateY(100vh) rotate(720deg);opacity:0;}
+}
+
+/* KUE */
+.cake{
+    width:120px;
+    height:80px;
+    background:#ff8fab;
+    border-radius:10px;
+    margin-top:20px;
+    position:relative;
+    animation:pop 0.6s ease;
+}
+
+.candle{
+    width:10px;
+    height:25px;
+    background:white;
+    position:absolute;
+    top:-25px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.flame{
+    width:10px;
+    height:15px;
+    background:orange;
+    border-radius:50%;
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%);
+    animation:flicker 0.5s infinite alternate;
+}
+
+@keyframes flicker{
+    from{transform:translateX(-50%) scale(1);}
+    to{transform:translateX(-50%) scale(1.2);}
+}
+
+@keyframes pop{
+    from{transform:scale(0);}
+    to{transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="musik" src="35.mp3" autoplay loop></audio>
+
+<div id="star-container"></div>
+<div id="balon-container"></div>
+<div id="confetti-container"></div>
+
+<div class="container">
+    <h1>🎂 Happy Birthday Tuwirrr!</h1>
+    <button class="surprise-btn" onclick="surprise()">🎁 Surprise</button>
+
+
+    <p id="pesan" class="hidden">
+    Happy birthday, tuwirr 🎂🤍<br>
+    May you always be healthy, live a long life, have everything go smoothly,<br>
+    be happier, and be even more successful in the future.<br>
+    May all your wishes be checked off one by one,<br>
+    and may all your good wishes return to you many times over 🫶🌙✨<br>
+    Oh yeah... I hope my fortune will be smoother too, so I can get more monthly allowance.
+</p>
+
+</div>
+
+<script>
+
+// BINTANG
+const starContainer=document.getElementById("star-container");
+for(let i=0;i<120;i++){
+    let star=document.createElement("div");
+    star.classList.add("star");
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
+    star.style.animationDuration=(1+Math.random()*3)+"s";
+    starContainer.appendChild(star);
+}
+
+// BALON
+const balonContainer=document.getElementById("balon-container");
+const warna=["#ff4d6d","#ffd93d","#6bcBef","#9d4edd","#ff8fab"];
+
+for(let i=0;i<20;i++){
+    let balon=document.createElement("div");
+    balon.classList.add("balon");
+    balon.style.left=Math.random()*100+"%";
+    balon.style.background=warna[Math.floor(Math.random()*warna.length)];
+    balon.style.animationDuration=(6+Math.random()*6)+"s";
+
+    let tali=document.createElement("div");
+    tali.classList.add("tali");
+    balon.appendChild(tali);
+
+    balonContainer.appendChild(balon);
+}
+
+// CONFETTI
+function confetti(){
+    const container=document.getElementById("confetti-container");
+    for(let i=0;i<120;i++){
+        let c=document.createElement("div");
+        c.classList.add("confetti");
+        c.style.left=Math.random()*100+"%";
+        c.style.background=warna[Math.floor(Math.random()*warna.length)];
+        c.style.animationDuration=(2+Math.random()*2)+"s";
+        container.appendChild(c);
+        setTimeout(()=>c.remove(),3000);
+    }
+}
+
+// SURPRISE
+function surprise(){
+    document.getElementById("pesan").classList.remove("hidden");
+    confetti();
+    document.getElementById("musik").play();
+
+    const cakeArea=document.getElementById("cake-area");
+    cakeArea.innerHTML=`
+        <div class="cake">
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
